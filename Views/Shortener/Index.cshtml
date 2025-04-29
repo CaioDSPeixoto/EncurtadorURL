@@ -1,0 +1,30 @@
+﻿@model EncurtadorURL.DTOs.CreateShortUrlRequest;
+
+@{
+    ViewData["Title"] = "Encurtar URL";
+}
+
+<div class="container">
+    <h1>Encurtar URL 🔗</h1>
+
+    <form asp-action="Create" method="post" class="form">
+        <div class="form-group">
+            <label for="longUrl">URL Longa:</label>
+            <input asp-for="LongUrl" placeholder="Digite a URL aqui..." required />
+        </div>
+
+        <div class="form-group">
+            <label for="expirationType">Tempo de Expiração:</label>
+            <select asp-for="ExpirationAt">
+                <option value="0">1 Hora</option>
+                <option value="1">1 Dia</option>
+                <option value="2">3 Dias</option>
+                <option value="3" disabled>7 Dias (premium)</option>
+                <option value="4" disabled>1 Mês (premium)</option>
+                <option value="5" disabled>Nunca expira (premium)</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Encurtar Agora</button>
+    </form>
+</div>

@@ -1,0 +1,36 @@
+﻿@model EncurtadorURL.DTOs.ShortUrlResponse;
+
+@{
+	ViewData["Title"] = "URL Criada";
+}
+
+<div class="container">
+    <h1>🎉 URL Encurtada!</h1>
+
+    <p class="info-text">Copie e use o link abaixo:</p>
+
+    <div class="form-group url-container">
+        <input type="text" readonly value="@Model.ShortUrl" class="input-readonly" />
+        <a href="@Model.ShortUrl" target="_blank" class="btn-icon">
+            <i class="fa fa-external-link-alt"></i>
+        </a>
+    </div>
+
+    <p class="expiration-info">
+        Link válido até:
+        <strong>
+            @if (Model.ExpirationAt.HasValue)
+            {
+                @Model.ExpirationAt.Value.ToString("dd/MM/yyyy HH:mm")
+            }
+            else
+            {
+                @:Nunca
+            }
+        </strong>
+    </p>
+
+    <div class="actions">
+        <a href="/" class="btn btn-secondary btn-lg">Voltar</a>
+    </div>
+</div>
