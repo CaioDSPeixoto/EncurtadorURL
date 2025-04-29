@@ -8,10 +8,10 @@ namespace EncurtadorURL.Services
     /// <summary>
     /// Serviço responsável por gerenciar a criação e recuperação de URLs encurtadas.
     /// </summary>
-    public class ShortUrlService(ShortUrlRepository shortUrlRepository)
+    public class ShortUrlService(ShortUrlRepository shortUrlRepository, IConfiguration configuration)
     {
         private readonly ShortUrlRepository _shortUrlRepository = shortUrlRepository;
-        private readonly string _baseShortUrl = "http://localhost:5191/"; // URL base para os links encurtados.
+        private readonly string _baseDomainUrl = configuration.GetValue<string>("DomainUrl");
 
         /// <summary>
         /// Cria uma nova URL encurtada com base nos dados fornecidos.
@@ -45,7 +45,9 @@ namespace EncurtadorURL.Services
 
             return new ShortUrlResponse
             {
-                ShortUrl = $"{_baseShortUrl}{shortCode}",
+                ShortUrl = _baseDomainUrl.EndsWith("/")
+                ? $"{_baseDomainUrl}{shortCode}"
+                : $"{_baseDomainUrl}/{shortCode}",
                 ExpirationAt = shortUrl.ExpiresAt
             };
         }

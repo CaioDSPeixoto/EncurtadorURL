@@ -14,6 +14,7 @@ builder.Services.AddOptions<MongoDbSettings>()
 
 builder.Services.AddSingleton<ShortUrlRepository>();
 builder.Services.AddScoped<ShortUrlService>();
+builder.Services.AddScoped<PaymentService>();
 
 var app = builder.Build();
 

@@ -11,7 +11,12 @@ namespace EncurtadorURL.Controllers
 
         public IActionResult NotFound()
         {
-            return View("~/Views/Shared/Error.cshtml");
+            return View("NotFound");
+        }
+
+        public IActionResult Payment()
+        {
+            return View("Payment");
         }
     }
 }

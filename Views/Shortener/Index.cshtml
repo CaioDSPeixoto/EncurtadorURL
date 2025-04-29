@@ -1,30 +1,75 @@
 ﻿@model EncurtadorURL.DTOs.CreateShortUrlRequest;
 
 @{
-    ViewData["Title"] = "Encurtar URL";
+	ViewData["Title"] = "Encurtar URL";
 }
 
 <div class="container">
-    <h1>Encurtar URL 🔗</h1>
+	<h1>Encurtar URL 🔗</h1>
 
-    <form asp-action="Create" method="post" class="form">
-        <div class="form-group">
-            <label for="longUrl">URL Longa:</label>
-            <input asp-for="LongUrl" placeholder="Digite a URL aqui..." required />
-        </div>
+	<form asp-action="Create" method="post" class="form">
+		<div class="form-group">
+			<label for="longUrl">URL Longa:</label>
+			<input asp-for="LongUrl" placeholder="Digite a URL aqui..." required />
+		</div>
 
-        <div class="form-group">
-            <label for="expirationType">Tempo de Expiração:</label>
-            <select asp-for="ExpirationAt">
-                <option value="0">1 Hora</option>
-                <option value="1">1 Dia</option>
-                <option value="2">3 Dias</option>
-                <option value="3" disabled>7 Dias (premium)</option>
-                <option value="4" disabled>1 Mês (premium)</option>
-                <option value="5" disabled>Nunca expira (premium)</option>
-            </select>
-        </div>
+		<div class="form-group">
+			<label for="expirationType">Tempo de Expiração:</label>
+			<select asp-for="ExpirationAt">
+				<option value="0">1 Hora</option>
+				<option value="1">1 Dia</option>
+				<option value="2">3 Dias</option>
+				<option value="3">7 Dias (premium)</option>
+				<option value="4">1 Mês (premium)</option>
+				<option value="5">Nunca expira (premium)</option>
+			</select>
+		</div>
 
-        <button type="submit" class="btn">Encurtar Agora</button>
-    </form>
+		<button type="button" class="btn" onclick="confirmPremium()">Encurtar Agora</button>
+	</form>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="paymentModalLabel">Informações sobre o Pagamento</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>Você selecionou uma opção premium. Para uso real, seria necessário realizar um pagamento.</p>
+				<p><strong>Simulando pagamento automático...</strong> 🎉</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="confirmPremium">Entendi</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		function confirmPremium() {
+			var expirationOption = document.getElementById('ExpirationAt').value;
+
+			if (expirationOption == "3" || expirationOption == "4" || expirationOption == "5") {
+				// Opção premium -> Mostrar o modal de pagamento
+				$('#paymentModal').modal('show');
+			} else {
+				// Opção normal -> Enviar o formulário imediatamente
+				document.querySelector('form').submit();
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('confirmPremium').addEventListener('click', function () {
+				// Fechar o modal após confirmação
+				$('#paymentModal').modal('hide');
+
+				// Enviar o formulário
+				document.querySelector('form').submit();
+			});
+		});
+	</script>
+}

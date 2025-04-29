@@ -7,10 +7,11 @@ namespace EncurtadorURL.Controllers
     /// <summary>
     /// Controlador responsável por gerenciar URLs encurtadas.
     /// </summary>
-    public class ShortenerController(ILogger<ShortenerController> logger, ShortUrlService shortUrlService) : Controller
+    public class ShortenerController(ILogger<ShortenerController> logger, ShortUrlService shortUrlService, PaymentService paymentService) : Controller
     {
         private readonly ILogger<ShortenerController> _logger = logger;
         private readonly ShortUrlService _shortUrlService = shortUrlService;
+        private readonly PaymentService _paymentService = paymentService;
 
         /// <summary>
         /// Exibe a página inicial do encurtador de URLs.
@@ -34,6 +35,18 @@ namespace EncurtadorURL.Controllers
         {
             if (!ModelState.IsValid)
                 return View("Index");
+
+            if (createRequest.ExpirationAt == Models.Enums.ExpirationAtEnum.SevenDays
+                || createRequest.ExpirationAt == Models.Enums.ExpirationAtEnum.OneMonth
+                || createRequest.ExpirationAt == Models.Enums.ExpirationAtEnum.Never)
+            {
+                var isPaymentConfirmed = await _paymentService.ValidatePaymentAsync();
+
+                if (!isPaymentConfirmed)
+                {
+                    return RedirectToAction("Payment", "Error"); // Exibe um erro se o pagamento não for confirmado
+                }
+            }
 
             var shortUrlResponse = await _shortUrlService.CreateShortUrlAsync(createRequest);
 

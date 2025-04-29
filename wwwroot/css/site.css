@@ -120,23 +120,31 @@ footer {
     height: auto; /* <-- Importante: footer só ocupa o necessário */
 }
 
+/* ======================= */
+/* Estilos para as páginas de erro */
+/* ======================= */
+
 .error-container {
     text-align: center;
     padding: 50px;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .error-title {
     font-size: 2.5rem;
     color: #f44336;
     font-family: 'Arial', sans-serif;
+    margin-top: 20px;
 }
 
-.error-image {
-    width: 150px;
-    margin: 20px 0;
+.error-icon {
+    font-size: 4rem;
+    color: #f44336;
+    margin-bottom: 20px;
 }
 
 .error-message {
@@ -164,6 +172,10 @@ footer {
     .btn-home:hover {
         background-color: #45a049;
     }
+
+/* ======================= */
+/* Fim dos Estilos para Erros */
+/* ======================= */
 
 .info-text {
     font-size: 1rem;
